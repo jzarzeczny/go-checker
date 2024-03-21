@@ -1,12 +1,12 @@
 package interfaces
 
 type URLData struct {
-    Name string
-    URL  string
+	Name string `json:"name"`
+	URL  string `json:"url"`
 }
 
 // Result represents the result structure containing name and status information
 type Result struct {
-    Name   string
-    Status bool
+	Name   string
+	Status bool
 }
