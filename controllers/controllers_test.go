@@ -16,6 +16,8 @@ func TestGetWebsiteStatus(t *testing.T) {
 		{Name: "GitHub", URL: "https://www.github.com"},
 	}
 
+	token := "TEST_TOKEN"
+
 	// Create a request with a dummy request body (not used in this handler)
 	req, err := http.NewRequest("GET", "/status", bytes.NewBufferString(""))
 	if err != nil {
@@ -26,7 +28,7 @@ func TestGetWebsiteStatus(t *testing.T) {
 	rr := httptest.NewRecorder()
 
 	// Call the handler function with the sample URL list
-	GetWebsiteStatus(rr, req, urlList)
+	GetWebsiteStatus(rr, req, urlList, token)
 
 	// Check the status code
 	if status := rr.Code; status != http.StatusOK {

@@ -7,9 +7,18 @@ import (
 
 	"github.com/jzarzeczny/go-checker/fetcher"
 	"github.com/jzarzeczny/go-checker/interfaces"
+	"github.com/jzarzeczny/go-checker/validator"
 )
 
-func GetWebsiteStatus(w http.ResponseWriter, r *http.Request, urlList []interfaces.URLData) {
+func GetWebsiteStatus(w http.ResponseWriter, r *http.Request, urlList []interfaces.URLData, token string) {
+
+	err := validator.ValidateToken(r, token)
+
+	if err != nil {
+		http.Error(w, "Token is invalid", http.StatusUnauthorized)
+		return
+	}
+
 	if r.Method != http.MethodGet {
 		http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
 		return
