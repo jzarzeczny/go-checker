@@ -6,13 +6,13 @@ import (
 	"os"
 
 	"github.com/jzarzeczny/go-checker/controllers"
-	dotenvparser "github.com/jzarzeczny/go-checker/dot_env_parser"
+	"github.com/jzarzeczny/go-checker/dotEnvParser"
 	"github.com/jzarzeczny/go-checker/jsonParser"
 )
 
 func main() {
 
-	envVariables, err := dotenvparser.ParseEnvVariables()
+	envVariables, err := dotEnvParser.ParseEnvVariables()
 
 	if err != nil {
 		fmt.Println("Error during parsing of env variables", err)

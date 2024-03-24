@@ -1,4 +1,4 @@
-package dotenvparser
+package dotEnvParser
 
 import (
 	"os"
