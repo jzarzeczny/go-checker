@@ -30,12 +30,13 @@ func main() {
 		controllers.GetWebsiteStatus(w, r, urlList, envVariables["TOKEN"])
 	})
 
-	fmt.Println("Server listening on port 8080")
 	port := envVariables["PORT"]
 
 	if port == "" {
 		port = ":8080"
 	}
+
+	fmt.Printf("Server listening on port %s", port)
 
 	http.ListenAndServe(port, nil)
 }
