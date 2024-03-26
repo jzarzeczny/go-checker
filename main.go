@@ -11,8 +11,6 @@ import (
 )
 
 func main() {
-
-
 	envVariables, err := dotEnvParser.ParseEnvVariables()
 
 	if err != nil {
@@ -28,8 +26,16 @@ func main() {
 		os.Exit(1)
 	}
 
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) { controllers.GetWebsiteStatus(w, r, urlList, envVariables["TOKEN"]) })
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		controllers.GetWebsiteStatus(w, r, urlList, envVariables["TOKEN"])
+	})
 
 	fmt.Println("Server listening on port 8080")
-	http.ListenAndServe(":8080", nil)
+	port := envVariables["PORT"]
+
+	if port == "" {
+		port = ":8080"
+	}
+
+	http.ListenAndServe(port, nil)
 }

@@ -2,7 +2,6 @@ package validator
 
 import (
 	"errors"
-	"fmt"
 	"net/http"
 	"strings"
 )
@@ -15,9 +14,6 @@ func ValidateToken(r *http.Request, token string) error {
 	}
 
 	parts := strings.Split(authHeader, " ")
-
-	fmt.Println(parts)
-	fmt.Println(token)
 
 	if len(parts) != 2 || parts[0] != "Bearer" {
 		return errors.New("invalid Authorization header format")
