@@ -17,8 +17,6 @@ func main() {
 		fmt.Println("Error during parsing of env variables", err)
 	}
 
-	fmt.Println(envVariables)
-
 	urlList, err := jsonParser.Parser()
 
 	if err != nil {

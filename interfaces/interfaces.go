@@ -7,6 +7,6 @@ type URLData struct {
 
 // Result represents the result structure containing name and status information
 type Result struct {
-	Name   string
-	Status bool
+	Name   string `json:name`
+	Status bool   `json:status`
 }
