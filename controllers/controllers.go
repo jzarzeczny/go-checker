@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"sync"
 
 	"github.com/jzarzeczny/go-checker/fetcher"
 	"github.com/jzarzeczny/go-checker/interfaces"
@@ -25,24 +26,32 @@ func GetWebsiteStatus(w http.ResponseWriter, r *http.Request, urlList []interfac
 	}
 	resultCh := make(chan interfaces.Result)
 
+	resultMap := make(map[string]bool)
+	var wg sync.WaitGroup
+
+	wg.Add((len(urlList)))
+
 	for _, data := range urlList {
 		go func(data interfaces.URLData) {
-			ch := make(chan bool)
-			defer close(ch)
-			go fetcher.GetWebsiteStatus(data.URL, ch)
-			success := <-ch
+			defer wg.Done()
+
+			success := fetcher.GetWebsiteStatus(data.URL)
+			fmt.Printf("\n Trying to get value of %s and it's %v \n", data.URL, success)
 			resultCh <- interfaces.Result{Name: data.Name, Status: success}
 
 		}(data)
 	}
 
-	var results []interfaces.Result
-	for range urlList {
-		result := <-resultCh
-		results = append(results, result)
+	go func() {
+		wg.Wait()
+		close(resultCh)
+	}()
+
+	for result := range resultCh {
+		resultMap[result.Name] = result.Status
 	}
 
-	json, err := json.Marshal(results)
+	json, err := json.Marshal(resultMap)
 
 	if err != nil {
 		http.Error(w, fmt.Sprintf("Error marshalling JSON: %v", err), http.StatusInternalServerError)

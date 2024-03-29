@@ -8,7 +8,7 @@ func TestGetWebsiteStatus(t *testing.T) {
 	url := "https://www.google.com"
 	ch := make(chan bool)
 
-	go GetWebsiteStatus(url, ch)
+	go GetWebsiteStatus(url)
 
 	result := <-ch
 
